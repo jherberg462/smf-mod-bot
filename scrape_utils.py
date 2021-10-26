@@ -2,6 +2,7 @@ import requests
 from datetime import datetime, timedelta, timezone
 from bs4 import BeautifulSoup
 from threads_classes import Thread, All_threads
+import time
 
 
 def process_new_posts(AllThreads, 
@@ -14,7 +15,7 @@ def process_new_posts(AllThreads,
         domain: str, domain the forum is housed on
     '''
     low_postID=float('inf')
-    offset = 0
+    offset = 90
     new_highest_postID = 0
     for _ in range(10):
         #add below to loop
@@ -38,15 +39,16 @@ def process_new_posts(AllThreads,
             high_post = post_id
             if post_id > new_highest_postID:
                 new_highest_postID = post_id
-            if post_id <= highest_postID:
-                break
-            if post_id >= low_postID:
-                continue
+#             if post_id <= highest_postID:
+#                 break
+#             if post_id >= low_postID:
+#                 continue
             #update thread
             AllThreads.process_post(thread_id, last_post_time, OP, last_poster, post_id)
-        if post_id <= highest_postID:
-            break
-        offset += 10
+#         if post_id <= highest_postID:
+#             break
+        offset -= 10
+        time.sleep(1)
     return new_highest_postID
     
         
@@ -86,6 +88,8 @@ def get_last_post_time(post,):
         post_second = int(post_time.split(':')[2])
         if len(str(post.find_all('div',)[-1]).split("PM")) == 2:
             post_hour += 12
+        if post_hour % 12 == 0:
+            post_hour -= 12
 
         post_time_dt = datetime(utc_today.year, 
                                 utc_today.month, 

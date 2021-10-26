@@ -55,6 +55,7 @@ class All_threads:
         self.thread = dict()
         for thread in threads_to_ignore:
             self.add_thread(thread, None, None, None, 99999999999)
+            self.threads.append(thread)
     def add_thread(self, thread_id, last_post_time, OP, last_poster, post_id):
         self.thread[thread_id] = Thread(thread_id, last_post_time, OP, last_poster, post_id)
     def update_thread(self, last_post_time, last_poster, post_id, thread_id):
