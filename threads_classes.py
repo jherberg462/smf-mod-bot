@@ -22,6 +22,7 @@ class Thread:
                             #add logic to make sure post has not been reported already. 
                             self.rule_violations['excessive_bump'] = {
                                 'post_id':post_id,
+                                'last_bump_post_id':self.last_post_id,
                                 'last_bump':self.last_bump,
                                 'current_bump':last_post_time
                             }

@@ -63,6 +63,14 @@ while True:
                 time_since_violation_found = 0
     except IndexError:
         try:
+            browser.quit()
+            browser = Browser('chrome', **executable_path, headless=True)
+            login(os.environ['mod_user'], 
+                  os.environ['mod_password'], 
+                  browser,
+                  os.environ['captcha'])
+            threads.reset_thread_violations()
+            threads.reset_violations()
             highest_postID = process_new_posts(threads, highest_postID)
         except:
             raise ValueError
