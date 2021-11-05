@@ -29,7 +29,7 @@ class Thread:
                             
                 self.last_bump = last_post_time
             elif self.last_poster == lastPoster_: #consider if I want to update this to if
-                if self.last_post_time + timedelta(days=5) > last_post_time:
+                if self.last_post_time + timedelta(days=1) > last_post_time:
                     self.rule_violations['double_post_{}'.format(self.double_post_count)] = {
                         'post_id': post_id,
                         'previous_post_id': self.last_post_id,
