@@ -33,6 +33,7 @@ def login(username, password, browser_, captcha_bypass, domain='https://bitcoint
     '''
     url = domain + '/index.php?action=login;ccode={}'.format(captcha_bypass)
     browser_.visit(url)
+    time.sleep(1)
     browser_.fill('user', username)
     browser_.fill('passwrd', password)
     browser_.check('cookieneverexp') #stay logged in
@@ -61,8 +62,9 @@ while True:
                 threads.reset_thread_violations()
                 threads.reset_violations()
                 time_since_violation_found = 0
-    except IndexError:
+    except Exception as e :
         try:
+            print(e)
             browser.quit()
             browser = Browser('chrome', **executable_path, headless=True)
             login(os.environ['mod_user'], 
@@ -71,6 +73,6 @@ while True:
                   os.environ['captcha'])
             threads.reset_thread_violations()
             threads.reset_violations()
-            highest_postID = process_new_posts(threads, highest_postID)
+            #highest_postID = process_new_posts(threads, highest_postID)
         except:
             raise ValueError
