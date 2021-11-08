@@ -16,8 +16,8 @@ class Thread:
         if post_id > self.last_post_id:
             if self.last_poster == self.OP and lastPoster_ == self.OP:
                 if self.last_bump:
-                    #check if last bump is w/i 24 hours of last_post_time
-                    if (self.last_bump + timedelta(days=1)) > last_post_time:
+                    #check if last bump is w/i 24 hours of last_post_time (give 1.5 hours leeway)
+                    if (self.last_bump + timedelta(hours=22, minutes=30)) > last_post_time:
                         if (self.last_bump + timedelta(hours=1)) < last_post_time:
                             #add logic to make sure post has not been reported already. 
                             self.rule_violations['excessive_bump'] = {
