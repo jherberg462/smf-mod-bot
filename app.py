@@ -37,7 +37,7 @@ def login(username, password, browser_, captcha_bypass, domain='https://bitcoint
     browser_.fill('user', username)
     browser_.fill('passwrd', password)
     browser_.check('cookieneverexp') #stay logged in
-    active_web_element = browser_.driver.switch_to_active_element()
+    active_web_element = browser_.driver.switch_to.active_element
     active_web_element.send_keys(Keys.ENTER)
     
 
@@ -46,7 +46,7 @@ login(os.environ['mod_user'],
       os.environ['mod_password'], 
       browser,
       os.environ['captcha'])
-threads = All_threads([178336,5117330, 5216108])
+threads = All_threads([178336,5117330, 5216108], browser)
 
 highest_postID = 0
 time_since_violation_found = 0

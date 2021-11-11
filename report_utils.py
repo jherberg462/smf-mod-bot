@@ -173,10 +173,7 @@ def report_post(thread,
         
         Returns: None
     '''
-    if len(violation_type.split('double_post')) == 2:
-        post_id = violation['previous_post_id']
-    else:
-        post_id = violation['post_id']
+    post_id = violation['post_id']
     url = '{}/index.php?action=reporttm;topic={};msg={}'.format(domain,
                                                                thread,
                                                                post_id)
