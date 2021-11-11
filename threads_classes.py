@@ -77,7 +77,7 @@ class Thread:
 
 
 class All_threads:
-    def __init__(self, threads_to_ignore=None, browser):
+    def __init__(self, threads_to_ignore=None, browser=None):
         self.threads = list()
         self.violations = dict()
         self.thread = dict()
