@@ -1,7 +1,10 @@
 from datetime import datetime, timedelta, timezone
 from splinter import Browser
 from selenium.webdriver.common.keys import Keys
+from webdriver_manager.firefox import GeckoDriverManager
 
+executable_path = {'executable_path': GeckoDriverManager().install()}
+browser = Browser('firefox', **executable_path, headless=True)
 
 class Thread:
     def __init__(self, thread_id, last_post_time, OP, lastPoster, post_id, browser=None):
@@ -13,7 +16,7 @@ class Thread:
         self.double_post_count = 0
         self.rule_violations = dict()
         self.last_post_id = post_id
-        self._browser = browser
+        self.executable_path = {'executable_path': GeckoDriverManager().install()}
         self.last_bump_archive = None
     
     def update_thread(self, last_post_time, lastPoster_, post_id):
@@ -60,17 +63,19 @@ class Thread:
     def get_archive(self, post_id, domain='http://www.bitcointalk.org/'):
         url_to_archive = '{}index.php?topic={}.msg{}'.format(domain, self.thread_id, post_id)
         archive_url = 'http://archive.md'
-        self._browser.visit(archive_url)
-        self._browser.fill('url', 'url_to_archive')
-        active_web_element = self._browser.driver.switch_to.active_element
+        firefox = Browser('firefox', **executable_path, headless=True)
+        firefox.visit(archive_url)
+        time.sleep(0.5)
+        firefox.fill('url', url_to_archive)
+        active_web_element = firefox.driver.switch_to.active_element
         active_web_element.send_keys(Keys.ENTER)
         time.sleep(0.5)
         try:
-            archive_code = self._browser.driver.current_url.split('/')[-1]
+            archive_code = firefox.driver.current_url.split('/')[-1]
             archived_url = '{}/{}'.format(archive_url, archive_code)
         except IndexError:
             archived_url = 'unsuccessfully attepted to archive post'
-        self._browser.visit('data:,')
+        firefox.quit()
         return archived_url
 
 
@@ -86,7 +91,7 @@ class All_threads:
             self.add_thread(thread, None, None, None, 99999999999)
             self.threads.append(thread)
     def add_thread(self, thread_id, last_post_time, OP, last_poster, post_id):
-        self.thread[thread_id] = Thread(thread_id, last_post_time, OP, last_poster, post_id, self._browser)
+        self.thread[thread_id] = Thread(thread_id, last_post_time, OP, last_poster, post_id, None)
     def update_thread(self, last_post_time, last_poster, post_id, thread_id):
         violation_ = self.thread[thread_id].update_thread(last_post_time, last_poster, post_id)
         if len(violation_) > 0:
