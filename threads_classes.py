@@ -19,12 +19,12 @@ class Thread:
         self.last_bump_archive = None
     
     def update_thread(self, last_post_time, lastPoster_, post_id, browser):
-        self._browser = browser
+        self._browser = None #browser
         if post_id > self.last_post_id:
             if self.last_poster == self.OP and lastPoster_ == self.OP:
                 current_bump_archive = 'na' #self.get_archive(post_id)
                 if self.last_bump:
-                    current_bump_archive = self.get_archive(post_id)
+                    current_bump_archive = 'na'#self.get_archive(post_id)
                     #check if last bump is w/i 24 hours of last_post_time (give 1.5 hours leeway)
                     if (self.last_bump + timedelta(hours=22, minutes=30)) > last_post_time:
                         if (self.last_bump + timedelta(hours=1)) < last_post_time:
@@ -98,7 +98,7 @@ class All_threads:
             return violation_
     def process_post(self, thread_id, last_post_time, OP, last_poster, post_id):
         try: 
-            self._browser.visit('about:blank')
+            pass #self._browser.visit('about:blank')
         except:
             self.reset_browser()
         if thread_id in self.threads:
