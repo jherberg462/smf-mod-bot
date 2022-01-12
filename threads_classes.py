@@ -81,7 +81,7 @@ class Thread:
 
 class All_threads:
     def __init__(self, threads_to_ignore=None, browser=None):
-        self.threads = list()
+        self.threads = set()
         self.violations = dict()
         self.thread = dict()
         # self._browser = browser
@@ -89,7 +89,7 @@ class All_threads:
         self._browser = Browser('chrome', **self.executable_path, headless=True)
         for thread in threads_to_ignore:
             self.add_thread(thread, None, None, None, 99999999999)
-            self.threads.append(thread)
+            self.threads.add(thread)
     def add_thread(self, thread_id, last_post_time, OP, last_poster, post_id):
         self.thread[thread_id] = Thread(thread_id, last_post_time, OP, last_poster, post_id, self._browser)
     def update_thread(self, last_post_time, last_poster, post_id, thread_id):
@@ -107,7 +107,7 @@ class All_threads:
                 self.violations[thread_id] = violation_
         else:
             self.add_thread(thread_id, last_post_time, OP, last_poster, post_id)
-            self.threads.append(thread_id)
+            self.threads.add(thread_id)
     def reset_violations(self):
         self.violations = dict()
     def reset_thread_violations(self):
